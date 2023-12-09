@@ -32,7 +32,7 @@ Utilizes Firebase Authentication for secure user login and Firebase Realtime Dat
 ![Screenshot_20231209-111905](https://github.com/Ashrayyy/Lets-Chat/assets/101005702/08a639da-ab37-4bea-bcea-ace27c95ec08)
 <img src="https://your-image-url.type" width="100" height="100">
 ![Screenshot_20231209-111901](https://github.com/Ashrayyy/Lets-Chat/assets/101005702/87c709bf-9c97-4224-ab5f-310286c08c10)
-<img src="https://your-image-url.type" width="100" height="100">
+<img src="https://github.com/Ashrayyy/Lets-Chat/assets/101005702/87c709bf-9c97-4224-ab5f-310286c08c10" width="100" height="100">
 ![Screenshot_20231209-111854]()
 <img src="[https://your-image-url.type](https://github.com/Ashrayyy/Lets-Chat/assets/101005702/0aed37d8-86ba-4ff4-8aab-1b8811ef5d18)https://github.com/Ashrayyy/Lets-Chat/assets/101005702/0aed37d8-86ba-4ff4-8aab-1b8811ef5d18" width="100" height="100">
 
