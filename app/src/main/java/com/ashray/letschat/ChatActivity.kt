@@ -34,12 +34,14 @@ class ChatActivity : AppCompatActivity(), RecyclerViewClickListener ,AddFriend.c
     private var to : String? = null
     private lateinit var chatAdapter : ChatAdapter
     private lateinit var adapter : FriendsAdapter
+    private lateinit var utils : Utils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this,R.layout.activity_chat)
         viewModel=ViewModelProvider(this)[ChatViewModel::class.java]
         from=intent.getStringExtra("username")
+        utils=Utils()
         initViews()
         setListeners()
         observe()
@@ -48,12 +50,17 @@ class ChatActivity : AppCompatActivity(), RecyclerViewClickListener ,AddFriend.c
     private fun observe() {
         viewModel.update.observe(this,{
             chatAdapter.setChats(viewModel.thisChat)
-            binding.chatBox.smoothScrollToPosition(viewModel.thisChat.size-1);
+            utils.hideCustomDialog()
+            if(viewModel.thisChat.size>0) {
+                binding.chatBox.smoothScrollToPosition(viewModel.thisChat.size - 1);
+            }
         })
         viewModel.updateFriends.observe(this,{
+            utils.hideCustomDialog()
             adapter.setFriends(viewModel.friends)
         })
         viewModel.toast.observe(this,{
+            utils.hideCustomDialog()
             toast(it)
         })
     }
@@ -68,6 +75,8 @@ class ChatActivity : AppCompatActivity(), RecyclerViewClickListener ,AddFriend.c
         }
         adapter=FriendsAdapter(this)
 //        adapter.setFriends(listOf("aditya", "priyash"))
+
+        utils.showCustomDialog(this@ChatActivity,"Please Wait..")
         viewModel.getFriends(from.toString())
         binding.apply {
             recyclerView.also {
@@ -126,6 +135,7 @@ class ChatActivity : AppCompatActivity(), RecyclerViewClickListener ,AddFriend.c
             notSelected.visibility= View.GONE
             selected.visibility=View.VISIBLE
         }
+        utils.showCustomDialog(this@ChatActivity,"Please Wait..")
         viewModel.updateChat(from.toString(),to.toString())
     }
 
@@ -134,6 +144,7 @@ class ChatActivity : AppCompatActivity(), RecyclerViewClickListener ,AddFriend.c
     }
 
     override fun friendAdded(username: String) {
+        utils.showCustomDialog(this@ChatActivity,"Please Wait..")
         viewModel.addFriend(from.toString(), username)
         fragment?.dismiss()
         fragment=null

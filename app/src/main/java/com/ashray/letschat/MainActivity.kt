@@ -18,10 +18,13 @@ import com.google.firebase.database.FirebaseDatabase
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private lateinit var viewModel : MainViewModel
+    private lateinit var utils: Utils
+    private lateinit var from: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this,R.layout.activity_main)
         viewModel=ViewModelProvider(this)[MainViewModel::class.java]
+        utils= Utils()
         setListeners()
         observe()
     }
@@ -29,9 +32,17 @@ class MainActivity : AppCompatActivity() {
     private fun observe() {
         viewModel.toast.observe(this@MainActivity,{
             toast(it)
+            utils.hideCustomDialog()
+            from=binding.loginName.text.toString()
+            binding.apply {
+                loginName.text?.clear()
+                loginPass.text?.clear()
+                userName.text?.clear()
+                password.text?.clear()
+            }
             if(it=="Login Successful"){
                 val intent=Intent(this@MainActivity,ChatActivity::class.java)
-                intent.putExtra("username",binding.loginName.text.toString())
+                intent.putExtra("username",from)
                 startActivity(intent)
             }
         })
@@ -64,9 +75,11 @@ class MainActivity : AppCompatActivity() {
                 loSignup.visibility=View.VISIBLE
             }
             createAccount.setOnClickListener {
+                utils.showCustomDialog(this@MainActivity,"Please Wait..")
                 viewModel.createAccount(userName.text.toString() ,password.text.toString())
             }
             logIn.setOnClickListener {
+                utils.showCustomDialog(this@MainActivity,"Please Wait..")
                 viewModel.logIn(loginName.text.toString() ,loginPass.text.toString())
             }
         }
